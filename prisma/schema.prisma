@@ -5,7 +5,10 @@ generator client {
 datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
+  relationMode = "foreignKeys"
 }
+
+/// @skip_validation
 
 model Report {
   id            Int      @id @default(autoincrement())
