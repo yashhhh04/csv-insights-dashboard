@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+.card {
+  @apply rounded-xl border border-slate-800 bg-slate-900/60 p-4 shadow-sm shadow-black/30;
+}
+
+.card-header {
+  @apply mb-3 flex items-center justify-between gap-2;
+}
+
+.card-title {
+  @apply text-sm font-semibold tracking-tight text-slate-50;
+}
+
+.card-subtitle {
+  @apply text-xs text-slate-400;
+}
+
+.badge {
+  @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium;
+}
+
+.badge-ok {
+  @apply badge bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-500/40;
+}
+
+.badge-error {
+  @apply badge bg-rose-500/20 text-rose-300 ring-1 ring-rose-500/40;
+}
+
+.badge-warn {
+  @apply badge bg-amber-500/20 text-amber-200 ring-1 ring-amber-500/40;
+}
+
