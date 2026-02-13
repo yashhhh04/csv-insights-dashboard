@@ -78,27 +78,51 @@ export async function generateInsightsFromCsv(
 
   const samplePreview = sampleRows.slice(0, 5).map((row) => JSON.stringify(row));
 
-  const prompt = `
-You are a concise data analyst. You are given:
-- A list of CSV columns
-- Basic stats for numeric columns
-- A small sample of rows
+//   const prompt = `
+// You are a concise data analyst. You are given:
+// - A list of CSV columns
+// - Basic stats for numeric columns
+// - A small sample of rows
 
-Write a short insights report (3–6 bullet points) for a non-technical stakeholder:
-- Call out overall patterns or trends
-- Mention any obvious outliers or unusual ranges
-- Suggest 2–3 concrete follow-up checks or questions
-- Keep it under 220 words.
+// Write a short insights report (3–6 bullet points) for a non-technical stakeholder:
+// - Call out overall patterns or trends
+// - Mention any obvious outliers or unusual ranges
+// - Suggest 2–3 concrete follow-up checks or questions
+// - Keep it under 220 words.
 
-Columns:
-${columns.join(", ")}
+// Columns:
+// ${columns.join(", ")}
 
-Numeric column stats:
-${statsSummary || "No numeric columns detected."}
+// Numeric column stats:
+// ${statsSummary || "No numeric columns detected."}
 
-Sample rows:
+// Sample rows:
+// ${samplePreview.join("\n")}
+// `.trim();
+
+
+const prompt = `
+Act as a Senior Business Intelligence Analyst. Your goal is to transform raw CSV metadata into a high-level executive briefing.
+
+CONTEXT:
+- Columns: ${columns.join(", ")}
+- Numeric Stats: ${statsSummary || "No numeric columns detected."}
+- Data Sample:
 ${samplePreview.join("\n")}
-`.trim();
+
+YOUR MISSION:
+Analyze the provided data to uncover hidden efficiencies, risks, and strategic opportunities. Write a report for a non-technical stakeholder using this exact structure:
+
+1. **Executive Summary**: One sentence defining the dataset's primary focus.
+2. **Key Insights & Trends**: 3-4 data-driven bullet points. Focus on conversion rates, efficiency, or anomalies (e.g., high activity with low results). 
+3. **Strategic Outliers**: Call out the most significant "Red Flag" or "Success Story" found in the sample or stats.
+4. **Actionable Next Steps**: Suggest 2 specific business questions that this data prompts (e.g., "Why does County X have 2x the average conversion rate?").
+
+CONSTRAINTS:
+- Use professional, punchy language.
+- Avoid technical jargon (like "standard deviation" or "JSON").
+- Total length: Strictly under 220 words.
+`.trim(); 
 
   const ai = getClientOptional();
   if (!ai) {

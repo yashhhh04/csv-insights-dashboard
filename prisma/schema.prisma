@@ -3,20 +3,16 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
-  relationMode = "foreignKeys"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // uses connection pooling
 }
-
-/// @skip_validation
 
 model Report {
   id            Int      @id @default(autoincrement())
   createdAt     DateTime @default(now())
   title         String
-  summary       String
-  samplePreview String   // JSON stored as string for SQLite compatibility
-  stats         String   // JSON stored as string for SQLite compatibility
+  summary       String   @db.Text // Ensures long AI summaries aren't truncated
+  samplePreview String   @db.Text // Kept as String to match your existing logic
+  stats         String   @db.Text
   llmModel      String
 }
-
