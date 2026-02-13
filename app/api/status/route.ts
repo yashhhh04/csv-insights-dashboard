@@ -21,7 +21,7 @@ export async function GET() {
   // Database health
   try {
     await prisma.report.count();
-    dbStatus = { ok: true, message: "Connected to SQLite via Prisma." };
+    dbStatus = { ok: true, message: "Connected to Supabase via Prisma." };
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Failed to query database.";
     dbStatus = { ok: false, message };
